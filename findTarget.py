@@ -7,8 +7,8 @@ Created on Sun Jun  2 19:26:10 2019
 
 import cv2
 
-IMAGE_DIR = "C:\\Users\\Oliver\\Desktop\\DroneVisionSystem\\Drone Gopro Pictures\\"
-IMAGE_NAME = "G0058980.JPG"     #3648x2736
+IMAGE_DIR = "/home/pi/DroneVisionSystem/Drone Gopro Pictures/"
+IMAGE_NAME = "G0058900.JPG"     #3648x2736
 SCALE_PERCENT = 20
 
 print("\nImage:")
@@ -47,7 +47,7 @@ cv2.imshow("thresholded image", thresh1)
 graycopy = gray.copy()
 graycopy2 = gray.copy()
 
-img_cont, contours, heirarchy= cv2.findContours(thresh1,cv2.RETR_TREE,
+contours, heirarchy= cv2.findContours(thresh1,cv2.RETR_TREE,
                                                 cv2.CHAIN_APPROX_SIMPLE)
 
 for cnt in contours:
