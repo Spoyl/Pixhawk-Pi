@@ -6,9 +6,10 @@ Created on Sun Jun  2 19:26:10 2019
 """
 
 import cv2
+import numpy as np
 
 IMAGE_DIR = "C:\\Users\\Oliver\\Desktop\\DroneVisionSystem\\Drone Gopro Pictures\\"
-IMAGE_NAME = "G0058980.JPG"     #3648x2736
+IMAGE_NAME = "G0058905.JPG"     #3648x2736
 SCALE_PERCENT = 20
 
 print("\nImage:")
@@ -56,6 +57,13 @@ for cnt in contours:
     cv2.drawContours(graycopy, [approx], 0, (0,255,0), 0)
     
     if len(approx)==4 and 400.0>cv2.contourArea(approx)>100:
+        
+        M=cv2.moments(approx)
+        cX=int(M["m10"]/M["m00"])
+        cY=int(M["m01"]/M["m00"])
+        
+        cv2.circle(graycopy2, (cX, cY), 2, (0, 255, 0), -1)
+    
         cv2.drawContours(graycopy2, [approx], 0, (0,255,0), 0)
         print(cv2.contourArea(approx))
 

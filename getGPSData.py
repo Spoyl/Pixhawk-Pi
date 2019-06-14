@@ -9,10 +9,9 @@ from pymavlink import mavutil
 import time
 
 master = mavutil.mavlink_connection(
-            '/dev/ttyACM0',
+            '/dev/serial0',
             baud=115200)
 
-# Wait a heartbeat before sending commands
 master.wait_heartbeat()
 
 # Request all parameters
