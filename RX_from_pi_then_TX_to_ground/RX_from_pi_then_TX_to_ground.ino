@@ -11,14 +11,12 @@
 
 
 void setup() {
-
-Serial.begin(57600);
-  
+Serial.begin(57600);  
 }
 
 void loop() {
 
-while (Serial.available() > 0) //while data is available to read
+  while (Serial.available() > 0) //while data is available to read
     {
       char inChar = Serial.read(); //read first character in Serial
 

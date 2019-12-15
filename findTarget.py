@@ -9,8 +9,9 @@ import cv2
 import numpy as np
 
 IMAGE_DIR = "C:\\Users\\Oliver\\Desktop\\DroneVisionSystem\\Drone Gopro Pictures\\"
-IMAGE_NAME = "G0058905.JPG"     #3648x2736
+IMAGE_NAME = "G0059124.JPG"     #3648x2736
 SCALE_PERCENT = 20
+AREA_ARRAY = []
 
 print("\nImage:")
 print(IMAGE_DIR+IMAGE_NAME)
@@ -27,28 +28,18 @@ resized = cv2.resize(img, DIM, interpolation = cv2.INTER_AREA)
 print("\nImage Size:\t"+str(img.shape))
 print("\nResized Image:\t"+str(resized.shape))
 
-# Show resized image
-#cv2.imshow("original image (20% downsized)",resized)
-
-# Show green channel
-#g = resized.copy()
-#g[:, :, 0] = 0
-#g[:, :, 1] = 0
-#cv2.imshow("image",g)
-
 gray = cv2.cvtColor(resized, cv2.COLOR_BGR2GRAY)    #convert to grayscale
-#cv2.imshow("grayscale image", gray)
+cv2.imshow("grayscale image", gray)
+cv2.imwrite("orig.jpg", gray)
 
 ret, thresh1 = cv2.threshold(gray,210,255,cv2.THRESH_BINARY)    #threshold
-cv2.imshow("thresholded image", thresh1)
-
-#edges = cv2.Canny(thresh1,0, 255)   # find edges
-#cv2.imshow("edges", edges)
+#cv2.imshow("thresholded image", thresh1)
 
 graycopy = gray.copy()
 graycopy2 = gray.copy()
 
-img_cont, contours, heirarchy= cv2.findContours(thresh1,cv2.RETR_TREE,
+# REMOVE RET
+ret, contours, heirarchy= cv2.findContours(thresh1,cv2.RETR_TREE,
                                                 cv2.CHAIN_APPROX_SIMPLE)
 
 for cnt in contours:
@@ -66,10 +57,49 @@ for cnt in contours:
     
         cv2.drawContours(graycopy2, [approx], 0, (0,255,0), 0)
         print(cv2.contourArea(approx))
-
-cv2.imshow("Image with contours", graycopy)
+        
+        WPCONTOUR = approx
+cv2.imshow("img with contours", graycopy)
+cv2.imwrite("withcontours.jpg", graycopy)
 cv2.imshow("Image with rectangles", graycopy2)
+cv2.imwrite("waypoint.jpg", graycopy2)
 
+try:
 
+    # extract region of image with waypoint
+    x, y, w, h = cv2.boundingRect(WPCONTOUR)
+    minimg = thresh1[y:y+h, x:x+w]
+    
+    testmin = gray[y:y+h, x:x+w]
+    
+    cv2.imshow("small", testmin)
+    
+    # REMOVE RET
+    ret, contours, heirarchy = cv2.findContours(minimg, cv2.RETR_TREE,
+                                                    cv2.CHAIN_APPROX_SIMPLE)
+    
+    for cnt in contours:
+        approx =cv2.approxPolyDP(cnt, 0.02*cv2.arcLength(cnt, True), True)
+        cv2.drawContours(testmin, [approx], 0, (0,255,255), 0)
+        AREA_ARRAY.append(cv2.contourArea(approx))
+    
+    cv2.imshow("sklcn", testmin)
+    
+    ind = AREA_ARRAY.index(min(AREA_ARRAY))
+    
+    LETTER_CNT=cv2.approxPolyDP(contours[ind], 0.05*cv2.arcLength(contours[ind], True), True)
+    print(len(LETTER_CNT))
+    
+    if len(LETTER_CNT) == 5 or len(LETTER_CNT) == 6:
+        LETTER = "L"
+    else:
+        LETTER = "X"
+    
+    print("LETTER: ", LETTER)
+    
+except:
+    print("No waypoint")
+
+# close windows
 cv2.waitKey(0)
-cv2.destroyAllWindows() 
+cv2.destroyAllWindows()
