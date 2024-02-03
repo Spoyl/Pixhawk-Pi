@@ -1,6 +1,6 @@
 PixHawk Pi
 ==========
-A scrappy bundle of software written to connect a raspberry pi camera to a pixhawk powered drone, and perform character recognition on waypoints, as per the [IMechE UAS challenge](https://www.imeche.org/events/challenges/uas-challenge).
+A scrappy bundle of software written to connect a raspberry pi camera to a pixhawk powered drone, and perform character recognition on waypoints, as per the [IMechE UAS challenge](https://www.imeche.org/events/challenges/uas-challenge). The main.py file has mysteriously gone missing, but all the code is written below and can be used to reconstruct it fairly easily.
 
 #### Hardware Requirements
 * Raspberry Pi (model 3)
@@ -25,8 +25,6 @@ A scrappy bundle of software written to connect a raspberry pi camera to a pixha
 The pi communicates with the pixhawk controller using a UART serial connection (RX and TX lines). This requires a custom connector between the GPIO pins on the pi to the ‘telem 2’ on the pixhawk. You can find a breakdown of how to do this [here](http://ardupilot.org/dev/docs/raspberry-pi-via-mavlink.html). 
 If you are using an off the shelf telem cable, you will have two redundant wires that can be cut short. The pi can be powered entirely from the 5V cable of this connector (so long as a monitor is not attached).
 
-
-
 #### Connecting camera to pi
 
 The pi camera plugs into the pi using the ‘camera’ connector next to the hdmi port. Make sure to press the lever down fully or the camera will not be detected by the pi. Some initial setup may be required before using the [camera](https://thepihut.com/blogs/raspberry-pi-tutorials/16021420-how-to-install-use-the-raspberry-pi-camera).
@@ -34,9 +32,13 @@ The pi camera plugs into the pi using the ‘camera’ connector next to the hdm
 #### Connecting SiK radios
 
 The SiK radios connect directly to a USB port on the pi. You should use the same USB port every time you attach the radio to the pi. This saves you having to change name of the port in the main script. The other radio should be attached in the same manner to a laptop.
+
+![alt-text](https://github.com/Spoyl/DroneVisionSystem/blob/master/readme%20images/setup.jpg)
+
 This unit is enough to do everything we need. Note that for attachment to the drone, the pi needs a housing and the camera requires an unimpeded downward view.
 
-## Code Walkthrough
+## Code
+
 #### On the Pi
 
 Import dependencies:
