@@ -12,12 +12,12 @@ A scrappy bundle of software written to connect a raspberry pi camera to a pixha
 
 #### Software Requirements
 * Pi operating system - Raspbian (Jessie+)
-* Python 2+
-..* openCV
-..* serial
-..* time
-..* picamera
-..* pymavlink
+* Python 2
+  * openCV
+  * serial
+  * time
+  * picamera
+  * pymavlink
 
 ## Hardware Setup
 #### Connecting pi to pixhawk
