@@ -57,11 +57,15 @@ Initialize the camera. A delay of two seconds is added to give the camera time t
 ```Python
 camera = PiCamera()
 sleep(2)
+```
+
 A serial connection to the Sik radio must be established. The first argument is the USB port you have used to attach the radio which may be different on other models of pi. You can try listing the usb ports from the command line using ‘lsusb’ with the radio connected then disconnected. The port that changes is the radio.
+```Python
 port = serial.Serial("/dev/ttyUSB0", baudrate=57600, timeout=10)
 ```
 
 Establish serial communication to the pixhawk using mavlink. `port.write` is how data is transmitted across the radio connection – note that strings must be given as byte arrays (put a ‘b’ before the string). `wait_heartbeat` checks whether communication has been established. If unsuccessful, the code will not progress beyond this point:
+
 ```Python
 master = mavutil.mavlink_connection(
     '/dev/serial0',
